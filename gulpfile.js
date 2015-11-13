@@ -247,4 +247,4 @@ gulp.task('webserver', function() {
 
 // Default
 //gulp.task('default', ["html", "css", "sass", "js","jslibs", "jsmods", "connect", "watch"]);
-gulp.task('default', ["html", "css", "js", "img", "imr"]);
+gulp.task('default', ["html", "css", "js", "img"]);
