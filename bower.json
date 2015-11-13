@@ -1,0 +1,22 @@
+{
+  "name": "TestOnJob",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Виктор <viktortat@gmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "comp/",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.4"
+  }
+}

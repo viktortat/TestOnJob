@@ -1,0 +1,5 @@
+npm install gulp
+bower install jquery
+
+bower install jquery --save-dev
+npm install --save-dev gulp
