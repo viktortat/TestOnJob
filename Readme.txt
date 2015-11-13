@@ -1,5 +1,12 @@
-bower install jquery --save-dev
 
+
+bower init
+bower i -S angular angular-route angular-resource angular-sanitize angular-animate angular-cookies angular-touch angular-loader angular-i18n
+bower i -S bootstrap bootstrap-material-design
+bower install jquery --save-dev
+bower i -S jquery
+
+npm init
 npm install gulp
 npm install --save-dev gulp
 npm install --save-dev gulp-concat-css
@@ -21,3 +28,10 @@ npm install --save-dev gulp-webserver
 npm install --save-dev gulp-concat
 npm install --save-dev gulp-image-resize
 
+npm install --save-dev gulp-autoprefixer gulp-concat gulp-concat-css gulp-minify-css gulp-rename gulp-sass gulp-util gulp-webserver
+npm install --save-dev gulp-imagemin imagemin-pngquant gulp-notify rimraf gulp-changed gulp-util gulp-ftp gulp-image-resize
+
+
+Решение ошибки "CRLF would be replaced by LF in ..."
+git config --global --unset core.autocrlf
+git config core.autocrlf false
