@@ -16,7 +16,14 @@ var gulp = require('gulp'),
     ftp = require('gulp-ftp'),
     webserver = require('gulp-webserver'),
     concat = require('gulp-concat'),
-    imageResize = require('gulp-image-resize');
+    imageResize = require('gulp-image-resize'),
+    del = require('del'),
+    browserify = require('gulp-browserify');
+    styl = require('gulp-styl');
+    refresh = require('gulp-livereload');
+    lr = require('tiny-lr');
+    server = lr();
+
 
 var bc = './bower_components/';
 //http://habrahabr.ru/post/261467/
@@ -56,6 +63,15 @@ var path = {
 // Clean up
 gulp.task('clean', function (cb) {
     rimraf('./build', cb);
+
+    gulp.dest('./build/img/')
+    gulp.dest('./build/js/')
+    gulp.dest('./build/css/')
+});
+
+gulp.task('clean1', function(cb) {
+    // You can use multiple globbing patterns as you would with `gulp.src`
+    del(['build'], cb);
 });
 
 // Основные
@@ -81,6 +97,7 @@ gulp.task('jsmods', function () {
 });
 
 gulp.task('css', function () {
+
     gulp.src(path.src.css)
         .pipe(concatCss("style.min.css"))
         .pipe(minifyCss({compatibility: 'ie8'}))
@@ -244,7 +261,12 @@ gulp.task('webserver', function() {
         }));
 });
 
+gulp.task('lr-server', function() {
+    server.listen(35729, function(err) {
+        if(err) return console.log(err);
+    });
+})
 
 // Default
 //gulp.task('default', ["html", "css", "sass", "js","jslibs", "jsmods", "connect", "watch"]);
-gulp.task('default', ["html", "css", "js", "img"]);
+gulp.task('default', ["clean","html", "css", "js", "img"]);
