@@ -29,6 +29,7 @@ var bc = './bower_components/';
 //http://habrahabr.ru/post/261467/
 //http://codereview.stackexchange.com/questions/62986/optimizing-gulpfile-js
 //https://github.com/kriasoft/SPA-Seed.Front-end/blob/master/gulpfile.js
+//http://frontender.info/getting-started-with-gulp-2/
 
 //Пути
 var path = {
