@@ -1,1 +1,1 @@
-console.log('Пример');
+console.log('Пример js');
