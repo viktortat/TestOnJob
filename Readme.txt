@@ -30,6 +30,6 @@ npm install --save-dev gulp-autoprefixer gulp-concat gulp-concat-css gulp-minify
 npm install --save-dev gulp-imagemin imagemin-pngquant gulp-notify rimraf gulp-changed gulp-util gulp-ftp gulp-image-resize
 
 
-Решение ошибки "CRLF would be replaced by LF in ..."
+Р РµС€РµРЅРёРµ РѕС€РёР±РєРё "CRLF would be replaced by LF in ..."
 git config --global --unset core.autocrlf
 git config core.autocrlf false

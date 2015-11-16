@@ -31,7 +31,7 @@ var bc = './bower_components/';
 //https://github.com/kriasoft/SPA-Seed.Front-end/blob/master/gulpfile.js
 //http://frontender.info/getting-started-with-gulp-2/
 
-//Пути
+//РџСѓС‚Рё
 var path = {
     build: {
         js: './build/js/',
@@ -75,7 +75,7 @@ gulp.task('clean1', function(cb) {
     del(['build'], cb);
 });
 
-// Основные
+// РћСЃРЅРѕРІРЅС‹Рµ
 
 gulp.task('js', function () {
     gulp.src('./js/*.js')
