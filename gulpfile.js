@@ -21,6 +21,7 @@ var gulp = require('gulp'),
     browserify = require('gulp-browserify'),
     styl = require('gulp-styl'),
     jshint = require('gulp-jshint'),
+    jsdoc = require("gulp-jsdoc"),
     livereload = require('gulp-livereload'),
     lr = require('tiny-lr'),
     server = lr();
@@ -287,6 +288,83 @@ gulp.task('html', function () {
         .pipe(livereload());
         //.pipe(connect.reload());
 });
+
+gulp.task('jsDoc', function () {
+    gulp.src("./src/*.js")
+        .pipe(jsdoc.parser(infos, name))
+        .pipe(gulp.dest('./somewhere'));
+
+    gulp.src(["./src/*.js", "README.md"])
+        .pipe(jsdoc.parser(infos, name))
+        .pipe(gulp.dest('./somewhere'));
+
+    gulp.src("./js/*.js")
+        .pipe(jsdoc('./documentation-output'));
+});
+
+gulp.task('js-doc', function() {
+    return gulp.src([
+            'README.md',
+            './js/*.js',
+            './js/**/*.js'
+        ])
+        .pipe(jsdoc.parser({
+            plugins: ['plugins/markdown']
+        }))
+        .pipe(jsdoc.generator('./doc', {
+            path            : './node_modules/jaguarjs-jsdoc',
+            applicationName : 'Демонстрация',
+            disqus: '',
+            googleAnalytics: '',
+            openGraph: {
+                title: 'ViktorTat',
+                type: 'website',
+                image: 'https://habrastorage.org/getpro/habr/post_images/6d4/157/2b7/6d41572b7666a2ec06bb400a7bd5cf38.jpg',
+                site_name: 'Название сайта',
+                url: 'http://demo.com.ua/'
+            },
+            meta: {
+                title: 'Demo',
+                description: 'здесь будет описание',
+                keyword: 'слово1, слово2'
+            },
+            linenums: true
+        }));
+});
+
+gulp.task('jsdoc2', function () {
+    var options = {
+        'private': true,
+        applicationName : 'Демонстрация',
+        openGraph: {
+            title: 'ViktorTat',
+            type: 'website',
+            image: 'https://habrastorage.org/getpro/habr/post_images/6d4/157/2b7/6d41572b7666a2ec06bb400a7bd5cf38.jpg',
+            site_name: 'Название сайта',
+            url: 'http://demo.com.ua/'
+        },
+        meta: {
+            title: 'Demo',
+            description: 'здесь будет описание',
+            keyword: 'слово1, слово2'
+        },
+        monospaceLinks: true,
+        cleverLinks: true,
+        outputSourceFiles: true,
+        meta: {
+            title: 'Demo',
+            description: 'здесь будет описание',
+            keyword: 'слово1, слово2'
+        },
+        linenums: true
+    };
+
+    return gulp.src("./js/**/*.js")
+        .pipe(jsdoc.parser())
+        .pipe(jsdoc.generator('./Doc2/jsdoc', {}, options));
+});
+
+
 
 
 // Default

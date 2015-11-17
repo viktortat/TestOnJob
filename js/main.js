@@ -1,4 +1,8 @@
-/*
+/**
+ * @project Test jsdoc
+ * @author ViktorTat-Test <viktortat@gmail.com>
+ * @license See LICENSE.md file included in this distribution.
+ */
 var person = {
     name:'Иванов',
     age: 26,
@@ -8,14 +12,15 @@ var person = {
     }
 };
  console.log(person);
-*/
-/*
-var func = function(a,b){
+
+var func =
+    /** Wash the shirt. */
+    function(a,b){
     console.log(this);
     return a+b;
 };
  console.log(func(4,8));    //Вызов функции
-*/
+
 /*
 var MyObj = {
     info: 'вызов метода',
@@ -27,9 +32,16 @@ var MyObj = {
 console.log(MyObj.func(4,8));
 */
 
-/*Паттерн-Метод
+/**
+ *Паттерн-Метод
+ */
 var MyObj=(function(){
     //'паттерн Метод';
+    /**
+     * Refer to this by {@link chat."#channel".open}.
+     * @type {boolean}
+     * @defaultvalue
+     */
     var funcPrivate= function(){
         console.log(this);
         return 'Приватный метод';
@@ -63,15 +75,14 @@ var add = function(a,b){
 
 var sum = add.apply(MyObj,arr)
 console.log(sum);
-*/
 
-
+/*
 var Constr = {
 
 };
 
 new Constr();
-
+*/
 
 
 

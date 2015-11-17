@@ -29,6 +29,8 @@ npm install --save-dev gulp-ftp
 npm install --save-dev gulp-webserver
 npm install --save-dev gulp-concat
 npm install --save-dev gulp-image-resize
+npm install --save-dev jaguarjs-jsdoc
+npm install --save-dev jsdoc
 
 npm install --save
 
