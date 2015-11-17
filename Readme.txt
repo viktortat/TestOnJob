@@ -10,6 +10,8 @@ npm install gulp
 npm install --save-dev gulp
 npm install --save-dev gulp-concat-css
 npm install --save-dev gulp-rename
+npm install --save-dev gulp-jshint
+npm install --save-dev gulp-sourcemaps
 npm install --save-dev gulp-autoprefixer
 npm install --save-dev gulp-livereload
 npm install --save-dev gulp-connect

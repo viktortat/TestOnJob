@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     minifyCss = require('gulp-minify-css'),
     rename = require("gulp-rename"),
     autoprefixer = require('gulp-autoprefixer'),
+    sourcemaps = require('gulp-sourcemaps'),
     connect = require('gulp-connect'),
     //sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
@@ -17,10 +18,11 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     imageResize = require('gulp-image-resize'),
     del = require('del'),
-    browserify = require('gulp-browserify');
-    styl = require('gulp-styl');
+    browserify = require('gulp-browserify'),
+    styl = require('gulp-styl'),
+    jshint = require('gulp-jshint'),
     livereload = require('gulp-livereload'),
-    lr = require('tiny-lr');
+    lr = require('tiny-lr'),
     server = lr();
 
 
@@ -36,11 +38,12 @@ var path = {
         js: './build/js/',
         css: './build/css/',
         images: './build/img/',
+        imgres: './build/img/resize/',
         fonts: './build/fonts/',
         fontsBootstrap: 'build/fonts/bootstrap/'
     },
     src: {
-        js: 'js/script.js',
+        js: './js/*.js',
         styles: 'src/styles/template_styles.scss',
         css: './css/**/*.css',
         stylesPartials: 'src/styles/partials/',
@@ -57,52 +60,106 @@ var path = {
         images: 'img/**/*.*',
         sprite: 'sprite/*.*',
         fonts: 'fonts/**/*.*'
-    }
+    },
+    clean: './build'
 };
 
-// Clean up
-gulp.task('clean', function (cb) {
-    rimraf('./build', cb);
 
-    gulp.dest('./build/img/')
-    gulp.dest('./build/js/')
-    gulp.dest('./build/css/')
+gulp.task('make_build', ['clean','js:build','css:build','html:build','img','imgResize:build']);
+
+// JS hint task
+gulp.task('jshint', function() {
+    gulp.src('./js/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
 });
+
+//Предварительная очистка
+gulp.task('clean', function (cb) {
+    rimraf(path.clean, cb);
+});
+
+
+
+
+/* Архив
 
 gulp.task('clean1', function(cb) {
     // You can use multiple globbing patterns as you would with `gulp.src`
     del(['build'], cb);
 });
 
-// Основные
-
-gulp.task('js', function () {
-    gulp.src('./js/*.js')
-    //    .pipe(uglify())
-    //    .pipe(gulp.dest('./build/js/'))
-
-    //.pipe(connect.reload());
-    //.pipe(livereload());
-
-        .pipe(livereload(server))
-
-});
-gulp.task('jslibs', function () {
-    gulp.src('./js/libs/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('./build/js/libs/'))
-    //.pipe(connect.reload());
-});
-
 gulp.task('jsmods', function () {
-    gulp.src('./js/modules/**/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('./build/js/modules/'))
-    //.pipe(connect.reload());
+ gulp.src('./js/modules/!**!/!*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./build/js/modules/'))
+//.pipe(connect.reload());
 });
 
-gulp.task('css', function () {
 
+ gulp.task('webserver', function() {
+ gulp.src('builds/dist/')
+ .pipe(webserver({
+ livereload: true,
+ open: true
+ }));
+ });
+
+ gulp.task('lr-server', function() {
+ server.listen(63342, function(err) {
+ if(err) return console.log(err);
+ });
+ })
+
+ gulp.task('connect', function() {
+ connect.server({
+ root: 'app',
+ livereload: true
+ });
+ });
+
+
+ gulp.task('ftp', function () {
+ return gulp.src('src/*')
+ .pipe(ftp({
+ host: 'website.com',
+ user: 'johndoe',
+ pass: '1234'
+ }))
+ // you need to have some kind of stream after gulp-ftp to make sure it's flushed
+ // this can be a gulp plugin, gulp.dest, or any kind of stream
+ // here we use a passthrough stream
+ .pipe(gutil.noop());
+ });
+
+
+*/
+
+
+
+//============== Основные =======================
+gulp.task('js:livereload', function () {
+    gulp.src(path.src.js)
+    .pipe(livereload(server))
+});
+
+gulp.task('js:build', function () {
+    gulp.src(path.src.js)
+        .pipe(sourcemaps.init())            //Инициализируем sourcemap
+        .pipe(uglify())                     //Сожмем наш js
+        .pipe(rename(function (path) {
+            if (path.extname === '.js') {
+                path.basename += '.min';
+            }
+        }))
+        .pipe(sourcemaps.write())           //Пропишем карты
+        .pipe(gulp.dest(path.build.js));     //Выплюнем готовый файл в build
+        //.pipe(connect.reload());
+});
+
+
+
+gulp.task('css:build', function () {
     gulp.src(path.src.css)
         .pipe(concatCss("style.min.css"))
         .pipe(minifyCss({compatibility: 'ie8'}))
@@ -111,22 +168,12 @@ gulp.task('css', function () {
             cascade: false
         }))
         .pipe(gulp.dest(path.build.css));
-
-    gulp.src('./css/fight/*.css')
-        .pipe(concatCss("fight.min.css"))
-        .pipe(minifyCss({compatibility: 'ie8'}))
-        .pipe(autoprefixer({
-            browsers: ['last 10 versions'],
-            cascade: false
-        }))
-        .pipe(gulp.dest('./build/css/'))
-    //.pipe(connect.reload());
 });
 
 
 //http://www.graphicsmagick.org/download.html
-gulp.task('imr', function () {
-    gulp.src('img/*.{jpg,png}')
+gulp.task('imgResize:build', function () {
+    gulp.src('./img/*.{jpg,png}')
         //.pipe(imageResize({ width : 100 }))
         .pipe(imageResize({
             width : 600,
@@ -136,7 +183,7 @@ gulp.task('imr', function () {
         }))
         //.pipe(gulp.dest('dist'));
         .pipe(rename({suffix: '-300'}))
-        .pipe(gulp.dest('build/img'))
+        .pipe(gulp.dest(path.build.imgres))
     //.pipe(notify('images-resize task COMPLETE'));
 });
 
@@ -156,7 +203,7 @@ gulp.task('img', function () {
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest('./build/img/'))
+        .pipe(gulp.dest(path.build.images))
     //.pipe(connect.reload());
 });
 
@@ -176,7 +223,7 @@ gulp.task('img', function () {
  });
  */
 
-gulp.task('html1', function () {
+gulp.task('html:build', function () {
     gulp.src('./*.html')
         .pipe(changed('./build'))
         .pipe(gulp.dest('./build/'))
@@ -204,18 +251,7 @@ gulp.task('fonts', function () {
  });
  */
 
-gulp.task('ftp', function () {
-    return gulp.src('src/*')
-        .pipe(ftp({
-            host: 'website.com',
-            user: 'johndoe',
-            pass: '1234'
-        }))
-        // you need to have some kind of stream after gulp-ftp to make sure it's flushed
-        // this can be a gulp plugin, gulp.dest, or any kind of stream
-        // here we use a passthrough stream
-        .pipe(gutil.noop());
-});
+
 
 
 gulp.task('libs', function() {
@@ -244,26 +280,7 @@ gulp.task('libs', function() {
         .pipe(gulp.dest('./builds/dist/libs/angular/'));
 });
 
-gulp.task('webserver', function() {
-    gulp.src('builds/dist/')
-        .pipe(webserver({
-            livereload: true,
-            open: true
-        }));
-});
 
-gulp.task('lr-server', function() {
-    server.listen(63342, function(err) {
-        if(err) return console.log(err);
-    });
-})
-
-gulp.task('connect', function() {
-    connect.server({
-        root: 'app',
-        livereload: true
-    });
-});
 
 gulp.task('html', function () {
     gulp.src('./*.html')
@@ -274,22 +291,24 @@ gulp.task('html', function () {
 
 // Default
 //gulp.task('default', ["html", "css", "sass", "js","jslibs", "jsmods", "connect", "watch"]);
-//gulp.task('default', ['clean','html1', 'css', 'js', 'img','watch']);
-gulp.task('default', ['watch']);
 
+
+gulp.task('default', ['watch']);
 // Watch
 gulp.task('watch', function () {
-    gulp.watch("./css/**/*.css", ["css"]);
+    //gulp.watch("./css/**/*.css", ["css"]);
     //gulp.watch("./*.html", ["html"]);
-    gulp.watch("./js/*.js", ["js"]);
-    gulp.watch("./img/**/*", ["img"]);
-    gulp.watch("./img/**/*", ["imr"]);
-
+    //gulp.watch("./img/**/*", ["img"]);
+    //gulp.watch("./img/**/*", ["imr"]);
     //gulp.watch("./assets/js/libs/*.js", ["jslibs"]);
     //gulp.watch("./assets/js/modules/**/*.js", ["jsmods"]);
+    gulp.watch("./js/*.js", ["js:livereload"]);
 
     livereload.listen();
+
+
     gulp.watch(['./*.html']).on('change', livereload.reload);
+
     //gulp.watch(['./js/*.js']).on('change', livereload.changed);
     //gulp.watch(['./**/*.js']).on('change', livereload.reload);
     //gulp.watch(['./*.html'], ['html']);
