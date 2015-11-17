@@ -65,7 +65,7 @@ var path = {
 };
 
 
-gulp.task('make_build', ['clean','js:build','css:build','html:build','img','imgResize:build']);
+gulp.task('make_build', ['clean','js:build','css:build','html:build','img']);
 
 // JS hint task
 gulp.task('jshint', function() {
