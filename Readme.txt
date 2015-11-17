@@ -1,5 +1,3 @@
-777777
-
 bower init
 
 bower i -S angular angular-route angular-resource angular-sanitize angular-animate angular-cookies angular-touch angular-loader angular-i18n
