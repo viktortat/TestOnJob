@@ -30,11 +30,13 @@ npm install --save-dev gulp-webserver
 npm install --save-dev gulp-concat
 npm install --save-dev gulp-image-resize
 
+npm install --save
+
 npm install --save-dev gulp-autoprefixer gulp-concat gulp-concat-css gulp-minify-css gulp-rename gulp-sass gulp-util gulp-webserver
 npm install --save-dev gulp-imagemin imagemin-pngquant gulp-notify rimraf gulp-changed gulp-util gulp-ftp gulp-image-resize
 
 
-npm install
+bower i -S jquery
 
 
 Решение ошибки "CRLF would be replaced by LF in ..."

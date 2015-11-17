@@ -26,7 +26,7 @@ var gulp = require('gulp'),
     server = lr();
 
 
-var bc = './bower_components/';
+var bc = './comp/';
 //http://habrahabr.ru/post/261467/
 //http://codereview.stackexchange.com/questions/62986/optimizing-gulpfile-js
 //https://github.com/kriasoft/SPA-Seed.Front-end/blob/master/gulpfile.js
@@ -51,7 +51,7 @@ var path = {
         images: 'img/**/*.*',
         sprite: 'sprite/*.*',
         fonts: 'fonts/**/*.*',
-        fontsBootstrap: 'bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*'
+        fontsBootstrap: 'comp/bootstrap-sass/assets/fonts/bootstrap/*.*'
     },
     watch: {
         js: 'js/**/*.js',
@@ -256,13 +256,13 @@ gulp.task('fonts', function () {
 
 gulp.task('libs', function() {
     gulp.src(bc+'jquery/dist/jquery.js')
-        .pipe(gulp.dest('./builds/dist/libs/jquery/'));
+        .pipe(gulp.dest('./build/dist/libs/jquery/'));
 
     gulp.src(bc+'bootstrap/dist/!**!/!*.*')
-        .pipe(gulp.dest('./builds/dist/libs/bootstrap/'));
+        .pipe(gulp.dest('./build/dist/libs/bootstrap/'));
 
     gulp.src(bc+'bootstrap-material-design/dist/!**!/!*.*')
-        .pipe(gulp.dest('./builds/dist/libs/bootstrap-material-design/'));
+        .pipe(gulp.dest('./build/dist/libs/bootstrap-material-design/'));
 
     gulp.src([bc+'angular/angular.js',
         bc+'angular-animate/angular-animate.js',
@@ -277,7 +277,7 @@ gulp.task('libs', function() {
         bc+'angularfire/dist/angularfire.js',
     ])
         .pipe(concat('angular.concat.js'))
-        .pipe(gulp.dest('./builds/dist/libs/angular/'));
+        .pipe(gulp.dest('./build/dist/libs/angular/'));
 });
 
 
