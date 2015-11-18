@@ -22,6 +22,8 @@ var gulp = require('gulp'),
     styl = require('gulp-styl'),
     jshint = require('gulp-jshint'),
     jsdoc = require("gulp-jsdoc"),
+    docco = require("gulp-docco"),
+    //screenshot = require('gulp-local-screenshots'),
     livereload = require('gulp-livereload'),
     lr = require('tiny-lr'),
     server = lr();
@@ -253,8 +255,6 @@ gulp.task('fonts', function () {
  */
 
 
-
-
 gulp.task('libs', function() {
     gulp.src(bc+'jquery/dist/jquery.js')
         .pipe(gulp.dest('./build/dist/libs/jquery/'));
@@ -282,86 +282,10 @@ gulp.task('libs', function() {
 });
 
 
-
 gulp.task('html', function () {
     gulp.src('./*.html')
         .pipe(livereload());
         //.pipe(connect.reload());
-});
-
-gulp.task('jsDoc', function () {
-    gulp.src("./src/*.js")
-        .pipe(jsdoc.parser(infos, name))
-        .pipe(gulp.dest('./somewhere'));
-
-    gulp.src(["./src/*.js", "README.md"])
-        .pipe(jsdoc.parser(infos, name))
-        .pipe(gulp.dest('./somewhere'));
-
-    gulp.src("./js/*.js")
-        .pipe(jsdoc('./documentation-output'));
-});
-
-gulp.task('js-doc', function() {
-    return gulp.src([
-            'README.md',
-            './js/*.js',
-            './js/**/*.js'
-        ])
-        .pipe(jsdoc.parser({
-            plugins: ['plugins/markdown']
-        }))
-        .pipe(jsdoc.generator('./doc', {
-            path            : './node_modules/jaguarjs-jsdoc',
-            applicationName : 'Демонстрация',
-            disqus: '',
-            googleAnalytics: '',
-            openGraph: {
-                title: 'ViktorTat',
-                type: 'website',
-                image: 'https://habrastorage.org/getpro/habr/post_images/6d4/157/2b7/6d41572b7666a2ec06bb400a7bd5cf38.jpg',
-                site_name: 'Название сайта',
-                url: 'http://demo.com.ua/'
-            },
-            meta: {
-                title: 'Demo',
-                description: 'здесь будет описание',
-                keyword: 'слово1, слово2'
-            },
-            linenums: true
-        }));
-});
-
-gulp.task('jsdoc2', function () {
-    var options = {
-        'private': true,
-        applicationName : 'Демонстрация',
-        openGraph: {
-            title: 'ViktorTat',
-            type: 'website',
-            image: 'https://habrastorage.org/getpro/habr/post_images/6d4/157/2b7/6d41572b7666a2ec06bb400a7bd5cf38.jpg',
-            site_name: 'Название сайта',
-            url: 'http://demo.com.ua/'
-        },
-        meta: {
-            title: 'Demo',
-            description: 'здесь будет описание',
-            keyword: 'слово1, слово2'
-        },
-        monospaceLinks: true,
-        cleverLinks: true,
-        outputSourceFiles: true,
-        meta: {
-            title: 'Demo',
-            description: 'здесь будет описание',
-            keyword: 'слово1, слово2'
-        },
-        linenums: true
-    };
-
-    return gulp.src("./js/**/*.js")
-        .pipe(jsdoc.parser())
-        .pipe(jsdoc.generator('./Doc2/jsdoc', {}, options));
 });
 
 
@@ -369,6 +293,35 @@ gulp.task('jsdoc2', function () {
 
 // Default
 //gulp.task('default', ["html", "css", "sass", "js","jslibs", "jsmods", "connect", "watch"]);
+
+
+
+//--------------------------------------------------------------------
+var opts = {
+    showPrivate: true,
+    monospaceLinks: true,
+    cleverLinks: true,
+    outputSourceFiles: true
+};
+
+gulp.task('doc-1-jsdoc', function() {
+    gulp.src(["./js/*.js", "README.md"])
+        .pipe(jsdoc.parser())
+        .pipe(jsdoc.generator('./DocHelp-jsdoc'))
+});
+
+gulp.task('doc-2-docco', function() {
+    gulp.src("./js/**/*.js")
+        .pipe(docco())
+        .pipe(gulp.dest('./DocHelp-docco'))
+});
+
+//--------------------------------------------------------------------
+
+
+
+
+
 
 
 gulp.task('default', ['watch']);
