@@ -1,4 +1,19 @@
+var incredible = 'world';
 
+console.log(incredible);
+
+function test(){
+    //console.log(incredible);
+    //will see 'incredible'
+    var incredible = 'no magic1';
+    console.log(incredible);
+}
+
+test();
+
+console.log(incredible);
+
+/*
 var person = {
     name:'Иванов',
     age: 26,
@@ -8,14 +23,15 @@ var person = {
     }
 };
  console.log(person);
-
+*/
+/*
 var func =
     function(a,b){
     console.log(this);
     return a+b;
 };
  console.log(func(4,8));    //Вызов функции
-
+*/
 /*
 var MyObj = {
     info: 'вызов метода',
@@ -28,8 +44,11 @@ console.log(MyObj.func(4,8));
 */
 
 /**
+ *
  *Паттерн-Метод
  */
+/*
+
 var MyObj=(function(){
     //'паттерн Метод';
     var funcPrivate= function(){
@@ -56,7 +75,9 @@ var MyObj=(function(){
 console.log(MyObj.getPrivate());
 console.log('--------------------------');
 console.log(MyObj.getPublic(4,8));
+*/
 
+/*
 var arr = [3,6];
 var add = function(a,b){
     console.log(this.func(10,3));
@@ -65,7 +86,7 @@ var add = function(a,b){
 
 var sum = add.apply(MyObj,arr)
 console.log(sum);
-
+*/
 /*
 var Constr = {
 

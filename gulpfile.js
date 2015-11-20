@@ -22,7 +22,7 @@ var gulp = require('gulp'),
     styl = require('gulp-styl'),
     jshint = require('gulp-jshint'),
     jsdoc = require("gulp-jsdoc"),
-    docco = require("gulp-docco"),
+    //docco = require("gulp-docco"),
     //screenshot = require('gulp-local-screenshots'),
     livereload = require('gulp-livereload'),
     lr = require('tiny-lr'),
@@ -311,11 +311,16 @@ gulp.task('doc-1-jsdoc', function() {
         .pipe(jsdoc.generator('./DocHelp-jsdoc'))
 });
 
+
+
+/*
 gulp.task('doc-2-docco', function() {
-    gulp.src("./js/**/*.js")
+    gulp.src("./js/!**!/!*.js")
         .pipe(docco())
         .pipe(gulp.dest('./DocHelp-docco'))
 });
+*/
+
 
 //--------------------------------------------------------------------
 
