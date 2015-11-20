@@ -306,7 +306,7 @@ var opts = {
 
 
 gulp.task('doc-1-jsdoc', function() {
-    gulp.src(["./js/*.js", "README.md"])
+    gulp.src(["./js/**/*.js", "README.md"])
         .pipe(jsdoc.parser())
         .pipe(jsdoc.generator('./DocHelp-jsdoc'))
 });
