@@ -39,6 +39,8 @@ var bc = './comp/';
 //http://codereview.stackexchange.com/questions/62986/optimizing-gulpfile-js
 //https://github.com/kriasoft/SPA-Seed.Front-end/blob/master/gulpfile.js
 //http://frontender.info/getting-started-with-gulp-2/
+//http://frontender.info/handling-sync-tasks-with-gulp-js/
+
 
 //Пути
 var path = {
@@ -69,7 +71,8 @@ var path = {
         sprite: 'sprite/*.*',
         fonts: 'fonts/**/*.*'
     },
-    clean: './build'
+    clean: './build',
+    cleanDoc: './DocHelp-jsdoc'
 };
 
 
@@ -85,6 +88,11 @@ gulp.task('jshint', function() {
 //Предварительная очистка
 gulp.task('clean', function (cb) {
     rimraf(path.clean, cb);
+});
+
+//Предварительная очистка
+gulp.task('cleanDoc', function (cb) {
+    rimraf(path.cleanDoc, cb);
 });
 
 // middleware function to pass to connect
@@ -329,47 +337,44 @@ var opts = {
 };
 
 
-gulp.task('doc-1-jsdoc', function() {
-    gulp.src(["./js/**/*.js", "README.md"])
+gulp.task('doc-1-jsdoc',['cleanDoc'], function() {
+    gulp.src(["./app/js/**/*.js", "README.md"])
         .pipe(jsdoc.parser())
         .pipe(jsdoc.generator('./DocHelp-jsdoc'))
 });
 
-
-
 /*
 gulp.task('doc-2-docco', function() {
     gulp.src("./js/!**!/!*.js")
-        .pipe(docco())
-        .pipe(gulp.dest('./DocHelp-docco'))
+    .pipe(docco())
+    .pipe(gulp.dest('./DocHelp-docco'))
 });
 */
 
 
 //--------------------------------------------------------------------
-
-
-
 // Работа с html
 gulp.task('html:watch', function () {
     gulp.src('./app/*.html')
-        .pipe(connect.reload());
+    .pipe(connect.reload());
 });
 
 // Работа с css
 gulp.task('css:watch', function () {
     gulp.src('./app/css/*.css')
-        .pipe(connect.reload());
+    .pipe(autoprefixer())
+    .pipe(connect.reload());
 });
 
 // Работа с js
 gulp.task('js:watch', function () {
     gulp.src('./app/js/*.js')
-        .pipe(connect.reload());
+    .pipe(connect.reload());
 });
 gulp.task('sass:watch', function () {
     gulp.watch('./sass/**/*.scss', ['sass']);
 });
+//--------------------------------------------------------------------
 
 
 gulp.task('default', ['connectSrvLR','watch']);
