@@ -1,0 +1,4 @@
+/comp/**/*
+/node_modules/**/*
+/build/**/*
+/.idea/**/*
