@@ -1,3 +1,6 @@
+'use strict';
+
+var port = 8000;
 var gulp = require('gulp'),
     concatCss = require('gulp-concat-css'),
     minifyCss = require('gulp-minify-css'),
@@ -22,9 +25,11 @@ var gulp = require('gulp'),
     styl = require('gulp-styl'),
     jshint = require('gulp-jshint'),
     jsdoc = require("gulp-jsdoc"),
+    sass = require('gulp-sass'),
     //docco = require("gulp-docco"),
     //screenshot = require('gulp-local-screenshots'),
     livereload = require('gulp-livereload'),
+    opn = require('opn'),
     lr = require('tiny-lr'),
     server = lr();
 
@@ -82,7 +87,21 @@ gulp.task('clean', function (cb) {
     rimraf(path.clean, cb);
 });
 
-
+// middleware function to pass to connect
+function middlewares(connect, opt) {
+    return [getTranslatorKey, naverTranslator.route, redirectToChat]
+}
+// Запуск сервера
+gulp.task('connectSrvLR', function() {
+    connect.server({
+        //root: '.', //Не дает с корня работать - ошибка доступа при localhost
+        root: 'app/',
+        port: port,
+        livereload: true
+        //middleware: middlewares
+    });
+    opn('http://localhost:'+port)
+});
 
 
 /* Архив
@@ -173,6 +192,11 @@ gulp.task('css:build', function () {
         .pipe(gulp.dest(path.build.css));
 });
 
+gulp.task('sass', function () {
+    gulp.src('./app/sass/**/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./build/css'));
+});
 
 //http://www.graphicsmagick.org/download.html
 gulp.task('imgResize:build', function () {
@@ -186,7 +210,7 @@ gulp.task('imgResize:build', function () {
         }))
         //.pipe(gulp.dest('dist'));
         .pipe(rename({suffix: '-300'}))
-        .pipe(gulp.dest(path.build.imgres))
+        .pipe(gulp.dest(path.build.imgres));
     //.pipe(notify('images-resize task COMPLETE'));
 });
 
@@ -195,7 +219,7 @@ gulp.task('img-opt', function () {
     return gulp.src('img/*.{jpg,png}')
         .pipe(imagemin({optimizationLevel: 3, progressive: true, interlaced: true}))
         //.pipe(rename(function (path) { path.basename += "-thumbnail"; }))
-        .pipe(gulp.dest('build/img-opt'))
+        .pipe(gulp.dest('build/img-opt'));
     //.pipe(notify('img-opt task COMPLETE'));
 });
 
@@ -206,7 +230,7 @@ gulp.task('img', function () {
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest(path.build.images))
+        .pipe(gulp.dest(path.build.images));
     //.pipe(connect.reload());
 });
 
@@ -229,13 +253,13 @@ gulp.task('img', function () {
 gulp.task('html:build', function () {
     gulp.src('./*.html')
         .pipe(changed('./build'))
-        .pipe(gulp.dest('./build/'))
+        .pipe(gulp.dest('./build/'));
     //.pipe(connect.reload());
 });
 
 gulp.task('fonts', function () {
     gulp.src('./font/**/*')
-        .pipe(gulp.dest('./build/font/'))
+        .pipe(gulp.dest('./build/font/'));
     //.pipe(connect.reload());
 });
 
@@ -326,11 +350,29 @@ gulp.task('doc-2-docco', function() {
 
 
 
+// Работа с html
+gulp.task('html:watch', function () {
+    gulp.src('./app/*.html')
+        .pipe(connect.reload());
+});
+
+// Работа с css
+gulp.task('css:watch', function () {
+    gulp.src('./app/css/*.css')
+        .pipe(connect.reload());
+});
+
+// Работа с js
+gulp.task('js:watch', function () {
+    gulp.src('./app/js/*.js')
+        .pipe(connect.reload());
+});
+gulp.task('sass:watch', function () {
+    gulp.watch('./sass/**/*.scss', ['sass']);
+});
 
 
-
-
-gulp.task('default', ['watch']);
+gulp.task('default', ['connectSrvLR','watch']);
 // Watch
 gulp.task('watch', function () {
     //gulp.watch("./css/**/*.css", ["css"]);
@@ -339,13 +381,17 @@ gulp.task('watch', function () {
     //gulp.watch("./img/**/*", ["imr"]);
     //gulp.watch("./assets/js/libs/*.js", ["jslibs"]);
     //gulp.watch("./assets/js/modules/**/*.js", ["jsmods"]);
+
+    gulp.watch(['./app/**/*.html'], ['html:watch']);
+    gulp.watch(['./app/css/**/*.css'], ['css:watch']);
+    gulp.watch(['./app/js/**/*.js'], ['js:watch']);
+    gulp.watch(['./app/sass/**/*.scss'], ['sass:watch']);
+
+/*
     gulp.watch("./js/*.js", ["js:livereload"]);
-
     livereload.listen();
-
-
     gulp.watch(['./*.html']).on('change', livereload.reload);
-
+*/
     //gulp.watch(['./js/*.js']).on('change', livereload.changed);
     //gulp.watch(['./**/*.js']).on('change', livereload.reload);
     //gulp.watch(['./*.html'], ['html']);

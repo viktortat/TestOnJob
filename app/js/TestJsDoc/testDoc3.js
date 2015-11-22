@@ -65,7 +65,7 @@ this.Book1= function (title) {
  * @global
  * @param {string} term - The search term to highlight.
  */
-eval("window.highlightSearchTerm = function(term) {};")
+eval("window.highlightSearchTerm = function(term) {};");
 
 /**
  * Both of these will link to the bar function.
