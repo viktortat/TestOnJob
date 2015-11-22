@@ -29,6 +29,7 @@
     "imagemin-pngquant": "^4.2.0",
     "jaguarjs-jsdoc": "0.0.1",
     "jsdoc": "^3.3.3",
+    "opn": "^3.0.3",
     "rimraf": "^2.4.3"
   },
   "dependencies": {
