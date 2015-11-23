@@ -54,20 +54,20 @@ var path = {
         fontsBootstrap: 'build/fonts/bootstrap/'
     },
     src: {
-        js: './js/*.js',
+        js: './app/js/*.js',
         styles: 'src/styles/template_styles.scss',
-        css: './css/**/*.css',
+        css: './app/css/**/*.css',
         stylesPartials: 'src/styles/partials/',
         spriteTemplate: 'src/sass.template.mustache',
-        images: 'img/**/*.*',
+        images: './app/img/**/*.*',
         sprite: 'sprite/*.*',
         fonts: 'fonts/**/*.*',
         fontsBootstrap: 'comp/bootstrap-sass/assets/fonts/bootstrap/*.*'
     },
     watch: {
-        js: 'js/**/*.js',
+        js: './app/js/**/*.js',
         styles: 'styles/**/*.scss',
-        css: 'css/**/*.css',
+        css: './app/css/**/*.css',
         images: 'img/**/*.*',
         sprite: 'sprite/*.*',
         fonts: 'fonts/**/*.*'
@@ -209,7 +209,7 @@ gulp.task('sass', function () {
 
 //http://www.graphicsmagick.org/download.html
 gulp.task('imgResize:build', function () {
-    gulp.src('./img/*.{jpg,png}')
+    gulp.src('./app/img/*.{jpg,png}')
         //.pipe(imageResize({ width : 100 }))
         .pipe(imageResize({
             width : 600,
@@ -225,7 +225,7 @@ gulp.task('imgResize:build', function () {
 
 // img-opt task optimizes all images
 gulp.task('img-opt', function () {
-    return gulp.src('img/*.{jpg,png}')
+    return gulp.src('./app/img/*.{jpg,png}')
         .pipe(imagemin({optimizationLevel: 3, progressive: true, interlaced: true}))
         //.pipe(rename(function (path) { path.basename += "-thumbnail"; }))
         .pipe(gulp.dest('build/img-opt'));
@@ -233,7 +233,7 @@ gulp.task('img-opt', function () {
 });
 
 gulp.task('img', function () {
-    gulp.src('./img/*.{jpg,png}')
+    gulp.src('./app/img/*.{jpg,png}')
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
@@ -260,14 +260,14 @@ gulp.task('img', function () {
  */
 
 gulp.task('html:build', function () {
-    gulp.src('./*.html')
+    gulp.src('./app/*.html')
         .pipe(changed('./build'))
         .pipe(gulp.dest('./build/'));
     //.pipe(connect.reload());
 });
 
 gulp.task('fonts', function () {
-    gulp.src('./font/**/*')
+    gulp.src('./app/font/**/*')
         .pipe(gulp.dest('./build/font/'));
     //.pipe(connect.reload());
 });
@@ -316,7 +316,7 @@ gulp.task('libs', function() {
 
 
 gulp.task('html', function () {
-    gulp.src('./*.html')
+    gulp.src('./app/*.html')
         .pipe(livereload());
         //.pipe(connect.reload());
 });
@@ -345,6 +345,38 @@ gulp.task('doc-1-jsdoc',['cleanDoc'], function() {
 //    opn('/DocHelp-jsdoc/index.html')
     opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc')
 });
+
+//-----------------------------------------------
+var opts2 = {
+    showPrivate: true,
+    monospaceLinks: true,
+    encoding: 'utf8',
+    cleverLinks: true,
+    outputSourceFiles: true
+};
+var tpl2 = {
+    path: 'ink-docstrap',
+    systemName      : 'ПРИМЕР заголовка',
+    footer          : 'Generated with ViktorTat',
+    copyright       : 'Сделанно  2015',
+    navType         : 'vertical',
+    theme           : 'cosmo', //'journal', //'cerulean'
+    linenums        : false,
+    collapseSymbols : false,
+    inverseNav      : false
+};
+
+var tmp2 = 'node_modules/gulp-jsdoc/node_modules/ink-docstrap/template';
+
+
+gulp.task('doc-2-jsdoc', function() {
+    gulp.src(["./app/js/**/*.js", "README.md"])
+        .pipe(jsdoc.parser())
+        .pipe(jsdoc.generator('./DocHelp-jsdoc-2', tpl2, opts2,tmp2));
+//        .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
+    opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc-2')
+});
+
 
 /*
 gulp.task('doc-2-docco', function() {
