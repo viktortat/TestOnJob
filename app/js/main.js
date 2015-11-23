@@ -1,3 +1,12 @@
+"use strict";
+
+console.log('2');
+
+
+
+
+
+/*======================================================
 /*
  /!**
  * Вызов функции
@@ -13,7 +22,6 @@
  console.log(funcAdd(4, 8));
  */
 /*======================================================
-
  /!**
  * Шаблон вызова метода
  * @type {{info: string, func: MyObj.func}}
@@ -30,14 +38,6 @@
 
 /*======================================================
 
-
-
-
-
-
-
-
-
  /*
  var incredible = 'world';
  console.log(incredible);
@@ -52,25 +52,26 @@
  console.log(incredible);
  */
 
-
-/**
+/*======================================================
+/*
+/!**
  * Паттерн-Модуль
- */
+ *!/
 var MyObj = (function () {
-    /**
+    /!**
      * Приватный метод
      * @returns {string}
-     */
+     *!/
     var funcPrivate = function () {
         //console.log(this);
         return 'Приватный метод';
     };
 
     return {
-        /**
+        /!**
          * Публичный метод
          * @returns {*}
-         */
+         *!/
         funcPublic: function () {
             //console.log(this);
             return a1 + b1;
@@ -94,14 +95,13 @@ var MyObj = (function () {
     }
 })();
 
-
 console.log(MyObj.getPrivate());
 console.log('--------------------------');
 console.log(MyObj.getPublic(4, 8));
+*/
 
 
 /*
-
  var person = {
  name:'Иванов',
  age: 26,
@@ -114,10 +114,6 @@ console.log(MyObj.getPublic(4, 8));
  */
 
 
-
-
-
-
 /*
  var arr = [3,6];
  var add = function(a,b){
@@ -128,55 +124,13 @@ console.log(MyObj.getPublic(4, 8));
  var sum = add.apply(MyObj,arr)
  console.log(sum);
  */
+
+
 /*
  var Constr = {
 
  };
-
  new Constr();
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
