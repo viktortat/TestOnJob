@@ -33,8 +33,10 @@ npm install --save-dev gulp-concat
 npm install --save-dev gulp-image-resize
 npm install --save-dev jaguarjs-jsdoc
 npm install --save-dev jsdoc
+npm install --save-dev gulp-jsdoc
 npm install --save-dev gulp-docco
 npm install --save-dev opn
+npm install --save-dev gulp-open
 npm install --save-dev gulp-connect
 npm install gulp-sass --save-dev
 

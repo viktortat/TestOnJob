@@ -30,6 +30,7 @@ var gulp = require('gulp'),
     //screenshot = require('gulp-local-screenshots'),
     livereload = require('gulp-livereload'),
     opn = require('opn'),
+    open = require('gulp-open'),
     lr = require('tiny-lr'),
     server = lr();
 
@@ -336,11 +337,13 @@ var opts = {
     outputSourceFiles: true
 };
 
-
 gulp.task('doc-1-jsdoc',['cleanDoc'], function() {
     gulp.src(["./app/js/**/*.js", "README.md"])
         .pipe(jsdoc.parser())
-        .pipe(jsdoc.generator('./DocHelp-jsdoc'))
+        .pipe(jsdoc.generator('./DocHelp-jsdoc'));
+//        .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
+//    opn('/DocHelp-jsdoc/index.html')
+    opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc')
 });
 
 /*
