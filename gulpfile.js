@@ -355,10 +355,10 @@ var opts2 = {
     outputSourceFiles: true
 };
 var tpl2 = {
-    path: 'ink-docstrap',
+    path            : 'ink-docstrap',
     systemName      : 'ПРИМЕР заголовка',
     footer          : 'Generated with ViktorTat',
-    copyright       : 'Сделанно  2015',
+    copyright       : 'Сделанно  2015!!!',
     navType         : 'vertical',
     theme           : 'cosmo', //'journal', //'cerulean'
     linenums        : false,
@@ -366,13 +366,14 @@ var tpl2 = {
     inverseNav      : false
 };
 
-var tmp2 = 'node_modules/gulp-jsdoc/node_modules/ink-docstrap/template';
-
+//'c:\Users\viktor\Desktop\TestOnJob\node_modules\gulp-jsdoc\node_modules\jsdoc\...DocTempl-default-godamnawful/publish'
+//var tmp2 = 'node_modules/gulp-jsdoc/node_modules/ink-docstrap/template';
+var tmp2 = './DocTempl/default/tmpl';
 
 gulp.task('doc-2-jsdoc', function() {
     gulp.src(["./app/js/**/*.js", "README.md"])
         .pipe(jsdoc.parser())
-        .pipe(jsdoc.generator('./DocHelp-jsdoc-2', tpl2, opts2,tmp2));
+        .pipe(jsdoc.generator('./DocHelp-jsdoc-2', tpl2, opts2));
 //        .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
     opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc-2')
 });
