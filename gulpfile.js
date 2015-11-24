@@ -341,9 +341,9 @@ gulp.task('doc-1-jsdoc',['cleanDoc'], function() {
     gulp.src(["./app/js/**/*.js", "README.md"])
         .pipe(jsdoc.parser())
         .pipe(jsdoc.generator('./DocHelp-jsdoc'));
-//        .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
-//    opn('/DocHelp-jsdoc/index.html')
-    opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc')
+//      .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
+//      opn('/DocHelp-jsdoc/index.html')
+        opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc')
 });
 
 //-----------------------------------------------
@@ -360,7 +360,7 @@ var tpl2 = {
     footer          : 'Generated with ViktorTat',
     copyright       : 'Сделанно  2015!!!',
     navType         : 'vertical',
-    theme           : 'cosmo', //'journal', //'cerulean'
+    theme           : 'journal', //'journal', //'cerulean'//'cosmo',
     linenums        : false,
     collapseSymbols : false,
     inverseNav      : false
@@ -374,7 +374,7 @@ gulp.task('doc-2-jsdoc', function() {
     gulp.src(["./app/js/**/*.js", "README.md"])
         .pipe(jsdoc.parser())
         .pipe(jsdoc.generator('./DocHelp-jsdoc-2', tpl2, opts2));
-//        .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
+//      .pipe(open({app: 'google-chrome', uri: 'http://localhost:'+port}));
     opn('http://localhost:63342/TestOnJob/DocHelp-jsdoc-2')
 });
 
