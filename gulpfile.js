@@ -354,6 +354,7 @@ var opts2 = {
     cleverLinks: true,
     outputSourceFiles: true
 };
+
 var tpl2 = {
     path            : 'ink-docstrap',
     systemName      : 'ПРИМЕР заголовка',
