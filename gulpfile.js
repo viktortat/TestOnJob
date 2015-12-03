@@ -1,3 +1,4 @@
+/// <vs SolutionOpened='css:build' />
 'use strict';
 
 var port = 8000;

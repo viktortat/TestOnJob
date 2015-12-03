@@ -16,20 +16,20 @@ var Todo = Backbone.Model.extend({
      * @memberOf Todo
      * @returns {{title: string, order: *, done: boolean}}
      */
-    defaults: function() {
-    return {
-        title: "empty todo...",
-        order: Todos.nextOrder(),
-        done: false
-    };
-},
+    defaults: function () {
+        return {
+            title: "empty todo...",
+            order: Todos.nextOrder(),
+            done: false
+        };
+    },
 
     /**
      * Переключение значений
      */
-    toggle: function() {
-    this.save({done: !this.get("done")});
-}
+    toggle: function () {
+        this.save({done: !this.get("done")});
+    }
 
 });
 
@@ -46,7 +46,7 @@ var TodoView = Backbone.View.extend({
      *
      * @memberOf TodoView
      */
-    tagName:  "li",
+    tagName: "li",
 
     /**
      * Устанавливаем шаблон
@@ -59,18 +59,18 @@ var TodoView = Backbone.View.extend({
      * @memberOf TodoView
      */
     events: {
-    "click .toggle"   : "toggleDone",
-        "dblclick .view"  : "edit",
-        "click a.destroy" : "clear",
-        "keypress .edit"  : "updateOnEnter",
-        "blur .edit"      : "close"
-},
+        "click .toggle": "toggleDone",
+        "dblclick .view": "edit",
+        "click a.destroy": "clear",
+        "keypress .edit": "updateOnEnter",
+        "blur .edit": "close"
+    },
 
-                                                                                                                                                                                                 initialize: function() {
-    this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
-},
-    render: function() {
+    initialize: function () {
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
+    },
+    render: function () {
         this.$el.html(this.template(this.model.toJSON()));
         this.$el.toggleClass('done', this.model.get('done'));
         this.input = this.$('.edit');
@@ -78,31 +78,31 @@ var TodoView = Backbone.View.extend({
     },
 
 
-    toggleDone: function() {
-    this.model.toggle();
-},
+    toggleDone: function () {
+        this.model.toggle();
+    },
 
 
-    edit: function() {
-    this.$el.addClass("editing");
-    this.input.focus();
-},
+    edit: function () {
+        this.$el.addClass("editing");
+        this.input.focus();
+    },
 
 
-    close: function() {
-    var value = this.input.val();
-    if (!value) {
-        this.clear();
-    } else {
-        this.model.save({title: value});
-        this.$el.removeClass("editing");
-    }
-},
+    close: function () {
+        var value = this.input.val();
+        if (!value) {
+            this.clear();
+        } else {
+            this.model.save({title: value});
+            this.$el.removeClass("editing");
+        }
+    },
 
 
-    updateOnEnter: function(e) {
-    if (e.keyCode == 13) this.close();
-},
+    updateOnEnter: function (e) {
+        if (e.keyCode == 13) this.close();
+    },
 
 
     /**
@@ -110,8 +110,8 @@ var TodoView = Backbone.View.extend({
      *
      * @memberOf TodoView
      */
-    clear: function() {
-    this.model.destroy();
-}
+    clear: function () {
+        this.model.destroy();
+    }
 
 });
